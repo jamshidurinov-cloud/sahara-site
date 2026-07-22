@@ -1,1 +1,538 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sahara — Mehmonxona, Restoran, O'yin zali, Bilyard va Market | Boysun, Surxondaryo</title>
+<meta name="description" content="Sahara — Surxondaryo viloyati, Boysun tumanida joylashgan mehmonxona, restoran va fastfud, kompyuter o'yinlari zali, bilyard hamda market kompleksi. Tunu-kun xizmat.">
+<meta name="keywords" content="Sahara, Boysun mehmonxona, Surxondaryo mehmonxona, Boysun restoran, Boysun bilyard, Boysun o'yin zali, Boysun market, Sahara Boysun">
+<meta name="author" content="Sahara">
+<meta name="robots" content="index, follow">
+<meta name="geo.region" content="UZ-SU">
+<meta name="geo.placename" content="Boysun, Surxondaryo, O'zbekiston">
 
+<meta property="og:type" content="business.business">
+<meta property="og:title" content="Sahara — Mehmonxona, Restoran, O'yin zali, Bilyard va Market">
+<meta property="og:description" content="Surxondaryo viloyati, Boysun tumanidagi Sahara — mehmonxona, restoran, o'yin zali, bilyard va market bitta manzilda.">
+<meta property="og:image" content="images/hero.jpg">
+<meta property="og:locale" content="uz_UZ">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Sahara — Boysun, Surxondaryo">
+<meta name="twitter:description" content="Mehmonxona, restoran, o'yin zali, bilyard va market — bitta manzilda.">
+<meta name="twitter:image" content="images/hero.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,400;0,500;0,600;1,500&family=Manrope:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&family=Pacifico&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --night:#14121c;
+    --night-alt:#1d1a28;
+    --panel:#211d2c;
+    --gold:#d9a85c;
+    --gold-dim:#a9803e;
+    --ember:#c1552f;
+    --oasis:#6e9277;
+    --cream:#f3ead6;
+    --muted:#b7afc4;
+    --line: rgba(217,168,92,0.25);
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--night);
+    color:var(--cream);
+    font-family:'Manrope',sans-serif;
+    overflow-x:hidden;
+  }
+  h1,h2,h3{
+    font-family:'Cormorant',serif;
+    font-weight:600;
+    letter-spacing:0.01em;
+  }
+  .mono{font-family:'Space Mono',monospace;}
+  .script{
+    font-family:'Pacifico',cursive;
+    font-weight:400;
+    letter-spacing:0;
+  }
+  a{color:inherit;text-decoration:none;}
+  .wrap{max-width:1180px;margin:0 auto;padding:0 32px;}
+
+  @media (prefers-reduced-motion: reduce){
+    *{animation:none !important; transition:none !important;}
+  }
+
+  /* ---------- NAV ---------- */
+  header{
+    position:fixed; top:0; left:0; right:0; z-index:100;
+    display:flex; align-items:center; justify-content:space-between;
+    padding:20px 32px;
+    background:linear-gradient(180deg, rgba(20,18,28,0.92), rgba(20,18,28,0));
+    backdrop-filter:blur(2px);
+  }
+  .logo{
+    font-family:'Pacifico',cursive; font-size:1.7rem; font-weight:400;
+    letter-spacing:0; color:var(--gold);
+  }
+  nav{display:flex; gap:26px;}
+  nav a{
+    font-size:0.78rem; text-transform:uppercase; letter-spacing:0.08em;
+    color:var(--muted); position:relative; padding-bottom:4px;
+    transition:color .25s;
+  }
+  nav a::after{
+    content:""; position:absolute; left:0; bottom:0; height:1px; width:0;
+    background:var(--gold); transition:width .3s;
+  }
+  nav a:hover{color:var(--cream);}
+  nav a:hover::after{width:100%;}
+  .nav-cta{
+    border:1px solid var(--gold-dim); padding:8px 16px; border-radius:2px;
+    color:var(--gold) !important;
+  }
+  .nav-cta:hover{background:var(--gold); color:var(--night) !important;}
+  .nav-cta::after{display:none;}
+  #navToggle{display:none;}
+
+  /* ---------- ROUTE (signature element) ---------- */
+  #route{
+    position:fixed; left:18px; top:0; bottom:0; width:40px; z-index:90;
+    display:flex; align-items:center; pointer-events:none;
+  }
+  #route svg{height:82vh; width:40px;}
+  #route .track{fill:none; stroke:rgba(217,168,92,0.18); stroke-width:2;}
+  #route .fill{fill:none; stroke:var(--gold); stroke-width:2; stroke-dasharray:1000; stroke-dashoffset:1000;}
+  .waypoint{
+    position:absolute; left:11px; width:18px; height:18px; border-radius:50%;
+    background:var(--night-alt); border:2px solid var(--gold-dim);
+    transform:translateY(-50%);
+    display:flex; align-items:center; justify-content:center;
+  }
+  .waypoint span{
+    position:absolute; left:26px; white-space:nowrap; font-size:0.68rem;
+    font-family:'Space Mono',monospace; color:var(--muted); letter-spacing:0.05em;
+    opacity:0; transform:translateX(-6px); transition:opacity .3s, transform .3s;
+  }
+  .waypoint.active{border-color:var(--gold); background:var(--gold);}
+  .waypoint.active span{opacity:1; transform:translateX(0); color:var(--gold);}
+  #camel{
+    position:absolute; left:6px; width:28px; height:28px; transform:translate(-5px,-50%);
+    transition: top .1s linear;
+  }
+  @media (max-width: 900px){ #route{display:none;} }
+
+  /* ---------- HERO ---------- */
+  .hero{
+    position:relative; min-height:100vh; display:flex; flex-direction:column;
+    align-items:center; justify-content:center; text-align:center;
+    padding:120px 24px 0;
+    background:
+      linear-gradient(180deg, rgba(20,18,28,0.55) 0%, rgba(20,18,28,0.35) 40%, rgba(20,18,28,0.92) 92%),
+      url('images/hero.jpg');
+    background-size:cover;
+    background-position:center 30%;
+    overflow:hidden;
+  }
+  #stars{position:absolute; inset:0; z-index:0; opacity:0.5;}
+  .hero-content{position:relative; z-index:2;}
+  .eyebrow{
+    font-family:'Space Mono',monospace; font-size:0.75rem; letter-spacing:0.25em;
+    text-transform:uppercase; color:var(--gold); margin-bottom:22px; display:inline-block;
+  }
+  .hero h1{
+    font-family:'Pacifico',cursive; font-weight:400;
+    font-size:clamp(3.4rem, 11vw, 8rem); line-height:1; color:var(--cream);
+    letter-spacing:0.01em;
+    text-shadow:0 0 40px rgba(217,168,92,0.35);
+  }
+  .hero p.tag{
+    font-size:1.05rem; color:var(--muted); max-width:520px; margin:26px auto 40px;
+    font-weight:400;
+  }
+  .btn-row{display:flex; gap:16px; justify-content:center; flex-wrap:wrap;}
+  .btn{
+    padding:14px 30px; font-size:0.85rem; letter-spacing:0.06em; text-transform:uppercase;
+    border-radius:2px; transition:all .25s; font-weight:600; cursor:pointer;
+  }
+  .btn-primary{background:var(--gold); color:var(--night);}
+  .btn-primary:hover{background:var(--cream);}
+  .btn-ghost{border:1px solid var(--gold-dim); color:var(--gold);}
+  .btn-ghost:hover{background:rgba(217,168,92,0.1);}
+
+  .dunes{position:absolute; bottom:-2px; left:0; width:100%; z-index:1;}
+
+  /* ---------- SECTIONS ---------- */
+  section.stop{padding:140px 0 100px; position:relative;}
+  section.stop:nth-child(even){background:var(--night-alt);}
+  .head-row{
+    display:flex; justify-content:space-between; align-items:flex-end;
+    gap:24px; margin-bottom:56px; flex-wrap:wrap;
+    border-bottom:1px solid var(--line); padding-bottom:24px;
+  }
+  .head-row h2{font-size:clamp(2.2rem,5vw,3.4rem); color:var(--cream);}
+  .head-row .stop-no{font-family:'Space Mono',monospace; color:var(--gold-dim); font-size:0.9rem;}
+  .lede{color:var(--muted); max-width:640px; font-size:1rem; line-height:1.7; margin-bottom:48px;}
+
+  .grid3{display:grid; grid-template-columns:repeat(3,1fr); gap:24px;}
+  .grid2{display:grid; grid-template-columns:repeat(2,1fr); gap:24px;}
+  @media (max-width:800px){.grid3,.grid2{grid-template-columns:1fr;}}
+
+  .card{
+    background:var(--panel); border:1px solid var(--line); border-radius:3px;
+    padding:30px 28px; transition:transform .3s, border-color .3s;
+  }
+  .card:hover{transform:translateY(-4px); border-color:var(--gold-dim);}
+  .card h3{color:var(--gold); font-size:1.5rem; margin-bottom:10px;}
+  .card p{color:var(--muted); font-size:0.92rem; line-height:1.6; margin-bottom:18px;}
+  .price{
+    font-family:'Space Mono',monospace; color:var(--cream); font-size:1.1rem;
+    border-top:1px dashed var(--line); padding-top:14px; display:flex; justify-content:space-between;
+  }
+  .price small{color:var(--muted); font-size:0.7rem;}
+
+  /* menu list */
+  .menu-list{list-style:none;}
+  .menu-list li{
+    display:flex; justify-content:space-between; align-items:baseline;
+    padding:16px 0; border-bottom:1px dashed var(--line); gap:16px;
+  }
+  .menu-list li:first-child{padding-top:0;}
+  .menu-list .name{font-size:1.1rem; font-family:'Cormorant',serif; color:var(--cream); font-weight:500;}
+  .menu-list .desc{display:block; color:var(--muted); font-size:0.82rem; font-family:'Manrope',sans-serif; margin-top:3px;}
+  .menu-list .dots{flex:1; border-bottom:1px dotted var(--line); margin:0 6px; transform:translateY(-6px); min-width:20px;}
+  .menu-list .cost{font-family:'Space Mono',monospace; color:var(--gold); white-space:nowrap;}
+
+  .tab-bar{display:flex; gap:8px; margin-bottom:36px; flex-wrap:wrap;}
+  .tab-btn{
+    padding:9px 18px; font-size:0.8rem; border:1px solid var(--line); border-radius:20px;
+    color:var(--muted); cursor:pointer; transition:all .2s; background:transparent;
+    font-family:'Manrope',sans-serif;
+  }
+  .tab-btn.on, .tab-btn:hover{border-color:var(--gold); color:var(--gold);}
+  .menu-panel{display:none;}
+  .menu-panel.on{display:block;}
+
+  .stat-row{display:flex; gap:40px; flex-wrap:wrap; margin-top:8px;}
+  .stat{font-family:'Space Mono',monospace;}
+  .stat b{display:block; font-size:2rem; color:var(--gold); font-weight:700;}
+  .stat span{color:var(--muted); font-size:0.75rem; text-transform:uppercase; letter-spacing:0.06em;}
+
+  .split{display:grid; grid-template-columns:1.1fr 0.9fr; gap:56px; align-items:center;}
+  @media (max-width:800px){.split{grid-template-columns:1fr;}}
+  .icon-box{width:56px; height:56px; margin-bottom:18px;}
+
+  .market-badges{display:flex; flex-wrap:wrap; gap:12px; margin-top:26px;}
+  .badge{
+    padding:8px 16px; border:1px solid var(--oasis); color:var(--oasis);
+    border-radius:20px; font-size:0.78rem; font-family:'Space Mono',monospace;
+  }
+
+  /* contact */
+  footer{
+    background:var(--night); border-top:1px solid var(--line); padding:70px 0 30px;
+  }
+  .foot-grid{display:grid; grid-template-columns:1.3fr 1fr 1fr; gap:40px; margin-bottom:50px;}
+  @media (max-width:800px){.foot-grid{grid-template-columns:1fr;}}
+  footer h4{color:var(--gold); font-size:0.85rem; letter-spacing:0.1em; text-transform:uppercase; margin-bottom:18px; font-family:'Manrope',sans-serif;}
+  footer p, footer a{color:var(--muted); font-size:0.92rem; line-height:2;}
+  footer a:hover{color:var(--gold);}
+  .bottom-bar{
+    display:flex; justify-content:space-between; padding-top:26px; border-top:1px solid var(--line);
+    font-size:0.75rem; color:var(--muted); flex-wrap:wrap; gap:10px;
+  }
+
+  ::selection{background:var(--gold); color:var(--night);}
+</style>
+</head>
+<body>
+
+<div id="route">
+  <svg viewBox="0 0 40 1000" preserveAspectRatio="none">
+    <path class="track" d="M20,0 L20,1000"/>
+    <path class="fill" id="routeFill" d="M20,0 L20,1000"/>
+  </svg>
+</div>
+
+<header>
+  <div class="logo">Sahara</div>
+  <nav id="mainNav">
+    <a href="#hotel">Mehmonxona</a>
+    <a href="#restoran">Restoran</a>
+    <a href="#oyin">O'yin zali</a>
+    <a href="#bilyard">Bilyard</a>
+    <a href="#market">Market</a>
+    <a href="#aloqa" class="nav-cta">Bron qilish</a>
+  </nav>
+</header>
+
+<section class="hero" id="top">
+  <canvas id="stars"></canvas>
+  <div class="hero-content">
+    <span class="eyebrow">Cho'l manzili · bitta hovlida beshta dunyo</span>
+    <h1>Sahara</h1>
+    <p class="tag">Mehmonxona, restoran va fastfud, kompyuter o'yinlari zali, bilyard hamda market — barchasi bir manzilda, tunu-kun xizmatingizda.</p>
+    <div class="btn-row">
+      <a href="#hotel" class="btn btn-primary">Xonalarni ko'rish</a>
+      <a href="#restoran" class="btn btn-ghost">Menyuga o'tish</a>
+    </div>
+  </div>
+  <svg class="dunes" viewBox="0 0 1440 180" preserveAspectRatio="none">
+    <path fill="#1d1a28" d="M0,140 C220,60 380,180 620,110 C860,40 1040,160 1220,90 C1330,55 1400,80 1440,100 L1440,180 L0,180 Z"/>
+    <path fill="#14121c" d="M0,170 C260,110 460,170 700,140 C940,110 1120,170 1300,130 C1370,115 1410,130 1440,140 L1440,180 L0,180 Z"/>
+  </svg>
+</section>
+
+<!-- HOTEL -->
+<section class="stop" id="hotel">
+  <div class="wrap">
+    <div class="head-row">
+      <h2>Mehmonxona</h2>
+      <div class="stop-no">manzil · 01 — tunash</div>
+    </div>
+    <p class="lede">Uzun yo'ldan so'ng kerak bo'lgan narsa — sokinlik. Xonalarimiz cho'l tunidek jimjit, ammo har bir qulaylik bilan jihozlangan.</p>
+    <div class="grid3">
+      <div class="card">
+        <h3>Standart</h3>
+        <p>2 kishilik, konditsioner, shkaf, dush xonasi, bepul Wi-Fi.</p>
+        <div class="price">Tungi narx <span>250 000 so'm <small>/tun</small></span></div>
+      </div>
+      <div class="card">
+        <h3>Semi-Lyuks</h3>
+        <p>Kengroq maydon, mehmonlar uchun kichik divan, minibar, balkon.</p>
+        <div class="price">Tungi narx <span>380 000 so'm <small>/tun</small></span></div>
+      </div>
+      <div class="card">
+        <h3>Lyuks</h3>
+        <p>Alohida yashash zonasi, katta hammom, kechki taom xonaga yetkazib beriladi.</p>
+        <div class="price">Tungi narx <span>560 000 so'm <small>/tun</small></span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- RESTORAN -->
+<section class="stop" id="restoran">
+  <div class="wrap">
+    <div class="head-row">
+      <h2>Restoran &amp; Fastfud</h2>
+      <div class="stop-no">manzil · 02 — to'yish</div>
+    </div>
+    <p class="lede">Milliy taomlardan tortib tezkor tansiq taomlargacha — bitta oshxonada ikkita menyu.</p>
+
+    <div class="tab-bar">
+      <button class="tab-btn on" data-tab="milliy">Milliy taomlar</button>
+      <button class="tab-btn" data-tab="fast">Fastfud</button>
+      <button class="tab-btn" data-tab="ichimlik">Ichimliklar</button>
+    </div>
+
+    <div class="menu-panel on" id="milliy">
+      <ul class="menu-list">
+        <li><span class="name">O'zbek oshi<span class="desc">Sara guruch, qo'y go'shti, sabzi</span></span><span class="dots"></span><span class="cost">45 000</span></li>
+        <li><span class="name">Shashlik (qiyma)<span class="desc">2 ta shisha, piyoz bilan</span></span><span class="dots"></span><span class="cost">32 000</span></li>
+        <li><span class="name">Lag'mon<span class="desc">Qo'lda tortilgan xamir, qovurma sabzavot</span></span><span class="dots"></span><span class="cost">38 000</span></li>
+        <li><span class="name">Manti<span class="desc">4 dona, qatiq bilan</span></span><span class="dots"></span><span class="cost">35 000</span></li>
+      </ul>
+    </div>
+    <div class="menu-panel" id="fast">
+      <ul class="menu-list">
+        <li><span class="name">Sahara Burger<span class="desc">Mol go'shti, pishloq, maxsus sous</span></span><span class="dots"></span><span class="cost">32 000</span></li>
+        <li><span class="name">Pitsa Pepperoni<span class="desc">32 sm, qalin xamir</span></span><span class="dots"></span><span class="cost">68 000</span></li>
+        <li><span class="name">Hot-dog<span class="desc">Frantsuz kartoshkasi bilan</span></span><span class="dots"></span><span class="cost">24 000</span></li>
+        <li><span class="name">Krili tovuq<span class="desc">6 dona, sous tanlovi bilan</span></span><span class="dots"></span><span class="cost">30 000</span></li>
+      </ul>
+    </div>
+    <div class="menu-panel" id="ichimlik">
+      <ul class="menu-list">
+        <li><span class="name">Yangi siqilgan sharbat<span class="desc">Apelsin / Anor / Olma</span></span><span class="dots"></span><span class="cost">18 000</span></li>
+        <li><span class="name">Milkshake<span class="desc">Shokolad / Vanil / Qulupnay</span></span><span class="dots"></span><span class="cost">22 000</span></li>
+        <li><span class="name">Cho'l choyi<span class="desc">Yalpiz va asal bilan</span></span><span class="dots"></span><span class="cost">12 000</span></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- OYIN ZALI -->
+<section class="stop" id="oyin">
+  <div class="wrap">
+    <div class="split">
+      <div>
+        <div class="stop-no" style="margin-bottom:14px;">manzil · 03 — musobaqa</div>
+        <h2 style="font-size:clamp(2.2rem,5vw,3.4rem); margin-bottom:20px;">Kompyuter o'yinlari zali</h2>
+        <p class="lede" style="margin-bottom:30px;">Yuqori tezlikdagi kompyuterlar, qulay o'rindiqlar va do'stona muhit — CS2, Dota 2, FIFA va boshqa sevimli o'yinlar uchun.</p>
+        <div class="stat-row">
+          <div class="stat"><b>18</b><span>kompyuter o'rni</span></div>
+          <div class="stat"><b>144Hz</b><span>monitor</span></div>
+          <div class="stat"><b>24/7</b><span>ish vaqti</span></div>
+        </div>
+      </div>
+      <div class="card">
+        <h3>Narxlar</h3>
+        <div class="price"><span>1 soat</span><span>15 000 so'm</span></div>
+        <div class="price"><span>5 soatlik paket</span><span>60 000 so'm</span></div>
+        <div class="price"><span>Kechki tarif (22:00–06:00)</span><span>10 000 so'm/soat</span></div>
+        <p style="margin-top:18px;">Har oyning oxirgi shanbasida — jamoaviy turnir va sovrinlar.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BILYARD -->
+<section class="stop" id="bilyard">
+  <div class="wrap">
+    <div class="split">
+      <div class="card" style="order:2;">
+        <h3>Stollar va narxlar</h3>
+        <div class="price"><span>Amerika bilyardi</span><span>25 000 so'm/soat</span></div>
+        <div class="price"><span>Rus bilyardi</span><span>30 000 so'm/soat</span></div>
+        <div class="price"><span>VIP xona (2 stol)</span><span>70 000 so'm/soat</span></div>
+      </div>
+      <div style="order:1;">
+        <div class="stop-no" style="margin-bottom:14px;">manzil · 04 — aniqlik</div>
+        <h2 style="font-size:clamp(2.2rem,5vw,3.4rem); margin-bottom:20px;">Bilyard zali</h2>
+        <p class="lede" style="margin-bottom:0;">6 ta professional stol, yumshoq yorug'lik va xotirjam muhit — kechki uchrashuvlar va do'stlar davrasi uchun ideal joy.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MARKET -->
+<section class="stop" id="market">
+  <div class="wrap">
+    <div class="head-row">
+      <h2>Market</h2>
+      <div class="stop-no">manzil · 05 — ta'minot</div>
+    </div>
+    <p class="lede">Mehmonxona mehmonlari va mahalla aholisi uchun — kerakli narsa doim yaqin atrofda, tun-u kun ochiq.</p>
+    <div class="grid3">
+      <div class="card">
+        <h3>Oziq-ovqat</h3>
+        <p>Non, sut mahsulotlari, meva-sabzavot, yarim tayyor mahsulotlar.</p>
+      </div>
+      <div class="card">
+        <h3>Kundalik ehtiyoj</h3>
+        <p>Gigiena vositalari, uy-ro'zg'or buyumlari, dorixona bo'limi.</p>
+      </div>
+      <div class="card">
+        <h3>Sayohatchilar uchun</h3>
+        <p>Yo'l oziq-ovqati, sim-karta to'ldirish, bank kartasi orqali to'lov.</p>
+      </div>
+    </div>
+    <div class="market-badges">
+      <span class="badge">24/7 ishlaydi</span>
+      <span class="badge">Naqd va karta</span>
+      <span class="badge">Yetkazib berish mavjud</span>
+    </div>
+  </div>
+</section>
+
+<footer id="aloqa">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <h4>Sahara</h4>
+        <p>Mehmonxona, restoran, o'yin zali, bilyard va market — bitta manzilda, tunu-kun xizmatingizda.</p>
+      </div>
+      <div>
+        <h4>Aloqa</h4>
+        <p>Manzil: Boysun tumani, Surxondaryo viloyati</p>
+        <p>Tel: <a href="tel:+998998743853">+998 99 874 38 53</a></p>
+        <p>Ish vaqti: 24/7</p>
+        <p>Telegram: <a href="https://t.me/Saharahotel1" target="_blank" rel="noopener">@Saharahotel1</a></p>
+        <p>Instagram: <a href="https://instagram.com/saharaboysun" target="_blank" rel="noopener">@saharaboysun</a></p>
+      </div>
+      <div>
+        <h4>Bo'limlar</h4>
+        <p><a href="#hotel">Mehmonxona</a></p>
+        <p><a href="#restoran">Restoran &amp; Fastfud</a></p>
+        <p><a href="#oyin">O'yin zali</a></p>
+        <p><a href="#bilyard">Bilyard</a></p>
+        <p><a href="#market">Market</a></p>
+      </div>
+    </div>
+    <div class="bottom-bar">
+      <span>© 2026 Sahara. Barcha huquqlar himoyalangan.</span>
+      <span>Sinov versiyasi — test uchun tayyorlangan</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Stars canvas
+  const canvas = document.getElementById('stars');
+  const ctx = canvas.getContext('2d');
+  function resizeCanvas(){
+    canvas.width = window.innerWidth;
+    canvas.height = document.querySelector('.hero').offsetHeight;
+  }
+  resizeCanvas();
+  window.addEventListener('resize', resizeCanvas);
+  const stars = Array.from({length:120}, ()=>({
+    x: Math.random()*canvas.width,
+    y: Math.random()*canvas.height*0.8,
+    r: Math.random()*1.4+0.3,
+    phase: Math.random()*Math.PI*2,
+    speed: Math.random()*0.02+0.005
+  }));
+  function drawStars(t){
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    stars.forEach(s=>{
+      const alpha = 0.4 + 0.6*Math.sin(t*s.speed + s.phase)*0.5+0.3;
+      ctx.beginPath();
+      ctx.fillStyle = 'rgba(243,234,214,'+Math.max(0.15,alpha)+')';
+      ctx.arc(s.x, s.y, s.r, 0, Math.PI*2);
+      ctx.fill();
+    });
+    requestAnimationFrame(drawStars);
+  }
+  requestAnimationFrame(drawStars);
+
+  // Tabs
+  document.querySelectorAll('.tab-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('on'));
+      document.querySelectorAll('.menu-panel').forEach(p=>p.classList.remove('on'));
+      btn.classList.add('on');
+      document.getElementById(btn.dataset.tab).classList.add('on');
+    });
+  });
+
+  // Route progress + waypoints
+  const stops = ['hotel','restoran','oyin','bilyard','market'];
+  const routeEl = document.getElementById('route');
+  const svg = routeEl.querySelector('svg');
+  const fillPath = document.getElementById('routeFill');
+  const totalLen = fillPath.getTotalLength();
+  fillPath.style.strokeDasharray = totalLen;
+
+  const waypoints = stops.map((id, i)=>{
+    const el = document.createElement('div');
+    el.className='waypoint';
+    el.innerHTML = '<span>'+document.getElementById(id).querySelector('h2, .head-row h2')?.textContent.trim()+'</span>';
+    routeEl.appendChild(el);
+    return {id, el};
+  });
+
+  function updateRoute(){
+    const doc = document.documentElement;
+    const scrollTop = doc.scrollTop || document.body.scrollTop;
+    const scrollHeight = (doc.scrollHeight - doc.clientHeight) || 1;
+    const progress = Math.min(1, Math.max(0, scrollTop/scrollHeight));
+    fillPath.style.strokeDashoffset = totalLen * (1-progress);
+
+    const routeRect = svg.getBoundingClientRect();
+    let activeIndex = -1;
+    stops.forEach((id, i)=>{
+      const rect = document.getElementById(id).getBoundingClientRect();
+      if(rect.top < window.innerHeight*0.6) activeIndex = i;
+      const relTop = rect.top + rect.height/2 - routeRect.top;
+      const pct = Math.min(1, Math.max(0, relTop/routeRect.height));
+      waypoints[i].el.style.top = (pct*routeRect.height) + 'px';
+      waypoints[i].el.classList.toggle('active', i===activeIndex);
+    });
+  }
+  window.addEventListener('scroll', updateRoute);
+  window.addEventListener('resize', updateRoute);
+  updateRoute();
+</script>
+</body>
+</html>
